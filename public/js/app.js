@@ -41,7 +41,8 @@ $(document).ready(function() {
   console.log('app.js loaded!');
   $.get('api/albums', function(res) {
     res.forEach(function(album){
-        renderAlbum(album);
+      // console.log(album.songs);
+      renderAlbum(album);
       });
   });
 
@@ -60,12 +61,10 @@ $(document).ready(function() {
 
 });
 
+
 // this function takes a single album and renders it to the page
 function renderAlbum(album) {
-  console.log('rendering album:', album);
-
-
-
+  // console.log('rendering album:', album);
   var albumHtml =
   "        <!-- one album -->" +
   "        <div class='row album' data-album-id='" + "HARDCODED ALBUM ID" + "'>" +
@@ -90,7 +89,12 @@ function renderAlbum(album) {
   "                      <li class='list-group-item'>" +
   "                        <h4 class='inline-header'>Released date:</h4>" +
   "                        <span class='album-releaseDate'>" + album.releaseDate + "</span>" +
+
+    "                      <li class='list-group-item'>" +
+  "                        <h4 class='inline-header'>Songs:</h4>" +
+  "                         <span>" + "songText here" + "</span>" +
   "                      </li>" +
+
   "                    </ul>" +
   "                  </div>" +
   "                </div>" +
@@ -108,5 +112,23 @@ function renderAlbum(album) {
   // render to the page with jQuery
   $('#albums').append(albumHtml);
 
+  buildSongsHtml();
+
+
 }
+
+function buildSongsHtml(songs) {
+  var songText;
+  songs.forEach(function(song) {
+     songText = songText + "(" + song.trackNumber + ") " + song.name;
+  });
+  var songsHtml  =
+  "                      <li class='list-group-item'>" +
+  "                        <h4 class='inline-header'>Songs:</h4>" +
+  "                         <span>" + songText + "</span>" +
+  "                      </li>";
+  return songsHtml;
+ 
+}
+
 
