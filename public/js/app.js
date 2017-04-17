@@ -62,6 +62,22 @@ $(document).ready(function() {
 });
 
 
+function buildSongsHtml(songs) {
+  var songText = "-";
+  songs.forEach(function(song) {
+     songText = songText + "(" + song.trackNumber + ") " + song.name;
+  });
+  var songsHtml  = songText;
+  // "                      <li class='list-group-item'>" +
+  // "                        <h4 class='inline-header'>Songs:</h4>" +
+  // "                         <span>" + songText + "</span>" +
+  // "                      </li>";
+  return songsHtml;
+ 
+}
+
+
+
 // this function takes a single album and renders it to the page
 function renderAlbum(album) {
   // console.log('rendering album:', album);
@@ -92,7 +108,7 @@ function renderAlbum(album) {
 
     "                      <li class='list-group-item'>" +
   "                        <h4 class='inline-header'>Songs:</h4>" +
-  "                         <span>" + "songText here" + "</span>" +
+  "                         <span>" + buildSongsHtml(album.songs) + "</span>" +
   "                      </li>" +
 
   "                    </ul>" +
@@ -111,24 +127,6 @@ function renderAlbum(album) {
 
   // render to the page with jQuery
   $('#albums').append(albumHtml);
-
-  buildSongsHtml();
-
-
-}
-
-function buildSongsHtml(songs) {
-  var songText;
-  songs.forEach(function(song) {
-     songText = songText + "(" + song.trackNumber + ") " + song.name;
-  });
-  var songsHtml  =
-  "                      <li class='list-group-item'>" +
-  "                        <h4 class='inline-header'>Songs:</h4>" +
-  "                         <span>" + songText + "</span>" +
-  "                      </li>";
-  return songsHtml;
- 
 }
 
 

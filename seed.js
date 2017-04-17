@@ -54,18 +54,41 @@ sampleSongs.push({ name: 'Stronger',
                    trackNumber: 7
 });
 
+db.Song.remove({}, function(err, songs) {
+  console.log('removed all songs');
+  db.Song.create(sampleSongs, function(err, songs){
+    if (err) {
+      console.log(err);
+    }
 
-db.Album.remove({}, function(err, albums){
 
-  db.Album.create(albumsList, function(err, albums){
-  		sampleSongs.forEach(function(song){
-		console.log(song);
-		albumsList.push(song);
-		});
-    if (err) { return console.log('ERROR', err); }
-    console.log("all albums:", albums);
-    console.log("created", albums.length, "albums");
-    process.exit();
+    db.Album.remove({}, function(err, albums){
+      console.log('removed all albums');
+      albumsList.forEach(function (albumData) {
+        var album = new db.Album({
+          artistName: albumData.artistName,
+          name: albumData.name,
+          releaseDate: albumData.releaseDate, 
+          genres: albumData.genres
+        });
+        db.Song.find({}, function (err, foundSongs) {
+          console.log(foundSongs);
+          if (err) {
+            console.log(err);
+            return;
+          }
+          album.songs = foundSongs;
+          album.save(function(err, savedAlbum){
+            if (err) {
+              return console.log(err);
+            }
+            console.log(savedAlbum);
+          });
+        });
+      });
+    });
+
   });
 });
+
 
