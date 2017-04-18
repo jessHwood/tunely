@@ -66,18 +66,21 @@ $(document).ready(function() {
           name: newSong,
           trackNumber: newTrackNumber
       };
-      console.log('test 2');
+      console.log(songData);
         $.ajax({
         type: 'POST', 
         url: '/api/albums/' + id + '/songs', 
         data: songData,
         success: [function(data) {
-          console.log(data + "in function");
-          
+          // console.log(data + "in function");
+          $('.album[data-album-id= ' + id +']').remove();
           renderAlbum(data);
         }],
         error: newSongError
       });
+        $('#trackNumber').val('');
+        $('#songName').val('');
+       $('#songModal').modal('toggle'); 
     });
    
 
